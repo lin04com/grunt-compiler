@@ -12,7 +12,7 @@
   "build" : ".build/",
   "out" : "dist/",
   "sea":{
-      "base" : "http://static9.pplive.cn/pub/",
+      "base" : "http://localhost/",
       "alias" :{
           "jquery" : "jquery",
           "json" : "json",
