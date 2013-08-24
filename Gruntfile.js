@@ -19,14 +19,11 @@ module.exports = function(grunt) {
         debug: true
       },
       build: {
-        options: {
-          //idleading : '<%= pkg.sea.base %>'
-        },
         files: [{
           cwd: '<%= pkg.app %>',
           src: '**/*',
           filter: 'isFile',
-          dest: '<%= pkg.build %>'
+          dest: '<%= pkg.dist %>'
         }]
       }
     },
@@ -37,18 +34,16 @@ module.exports = function(grunt) {
         include: 'relative'
       },
       build: {
-        options: {
-          include: 'all'
-        },
         files: [{
           expand: true,
-          cwd: '.build/',
+          cwd: '<%= pkg.dist %>',
           src: ['**/*.js'],
-          dest: 'dist/',
+          dest: '<%= pkg.dist %>',
           ext: '.js'
         }]
       }
     },
+
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -56,9 +51,9 @@ module.exports = function(grunt) {
       build: {
         files: [{
           expand: true,
-          cwd: 'dist/',
+          cwd: '<%= pkg.dist %>',
           src: ['**/*.js', '!**/*-debug.js'],
-          dest: 'dist/',
+          dest: '<%= pkg.dist %>/',
           ext: '.js'
         }]
       },
@@ -72,25 +67,27 @@ module.exports = function(grunt) {
         }]
       }
     },
+
     clean: {
-      spm: ['.build']
+      build : {
+        src: ['.build', '.*']
+      }
     }
+
   });
 
 
   grunt.loadNpmTasks('grunt-cmd-transport');
   grunt.loadNpmTasks('grunt-cmd-concat');
-  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask("concat", ["concat:compiler"]);
+  grunt.registerTask('compiler', ['uglify:compiler']);
 
-  grunt.registerTask("compiler", ["uglify:compiler"]);
-
-  grunt.registerTask("default", ["transport", "concat"]);
+  grunt.registerTask('default', ['transport', 'concat']);
 
   grunt.registerTask('build', ['transport:build', 'concat:build', 'uglify:build', 'clean']);
 
-  grunt.registerTask('build', ['clean']);
+  grunt.registerTask('clear', ['clean']);
 
 };

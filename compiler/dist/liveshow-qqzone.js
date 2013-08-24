@@ -1,2 +1,0 @@
-/*! compiler 2013-08-14 */
-!function(){var a={set:function(a,b){document.cookie=a+"="+encodeURIComponent(b)+"; ; path=/; domain=local.com;"},get:function(a){var b=document.cookie.match(new RegExp("(^| )"+a+"=([^;]*)(;|$)"));return null!==b?decodeURIComponent(b[2]):null}};a.set("test","AAA"),a.get("test")}();
