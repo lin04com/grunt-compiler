@@ -3,43 +3,50 @@
   "version": "1.0.0",
   "description": "A Js Compiler With Node",
   "homepage": "/",
-  "keywords": ["compiler", "node"],
+  "keywords": [
+    "compiler",
+    "node"
+  ],
   "author": "lin04com <ahschl0322@gmail.com>",
   "engines": {
     "node": ">= 0.6.0"
   },
-  "app" : "src/",
-  "build" : ".build/",
-  "dist" : "dist/",
-  "sea":{
+  "app": "src/",
+  "build": ".build/",
+  "dist": "dist/",
+  "sea": {
     "base" : "http://localhost/",
-    "alias" :{
-      "jquery" : "jquery",
-      "json" : "json",
-      "cookie" : "cookie",
-      "user" : "user",
-      "puid" : "puid",
-      "sctx" : "sctx",
-      "suggest" : "suggest",
-      "popbox" : "popbox",
-      "log" : "log",
-      "history" : "history",
-      "login" : "login",
-      "juicer" : "juicer",
-      "photoslide" : "photoslide",
-      "tabview" : "tabview",
-      "jquery-ui" : "jquery-ui",
-      "jqueryui-core" : "jqueryui-core",
-      "jquery-tabs" : "jquery-tabs",
-      "jquery-slider" : "jquery-slider",
-      "underscore" : "lib/underscore"
+    "alias": {
+      "jquery": "jquery",
+      "json": "json",
+      "cookie": "cookie",
+      "user": "user",
+      "puid": "puid",
+      "sctx": "sctx",
+      "suggest": "suggest",
+      "popbox": "popbox",
+      "log": "log",
+      "history": "history",
+      "login": "login",
+      "juicer": "juicer",
+      "photoslide": "photoslide",
+      "tabview": "tabview",
+      "jquery-ui": "jquery-ui",
+      "jqueryui-core": "jqueryui-core",
+      "jquery-tabs": "jquery-tabs",
+      "jquery-slider": "jquery-slider",
+      "underscore": "lib/underscore"
     }
   },
   "dependencies": {},
   "devDependencies": {
+    "grunt": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-cmd-transport": "~0.2.0",
     "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-clean": "~0.4.0"
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-ftpscript": "~0.1.6",
+    "grunt-yui-compressor" : " ~0.3.0",
+    "grunt-cachebuster": "~0.1.5"
   }
 }
