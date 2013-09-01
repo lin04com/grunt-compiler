@@ -4,25 +4,18 @@ module.exports = function(grunt) {
   var text = transport.text.init(grunt);
   var script = transport.script.init(grunt);
 
-  var formatter = function(hash){
-      var reg = /\\/g;
-      var result = ''; //
-      var val;
-      for(var key in hash){
-          //val = hash[key];
-          val = hash[key];
-          var file = key.replace(reg,'\/');
-          var arr = file.split('.');
-          arr[arr.length-2] = arr[arr.length-2] + '_' + val;
-          val = arr.join('.');
-          result += '["'+file + '" , "'+ val + '"],'; //\n
-      }
-      var lastIndex = result.lastIndexOf(',');
-      if (lastIndex > -1) {
-          result = result.substring(0, lastIndex);
-      }
-      //result += '\n];';
-      return result;
+  var formatter = function(hashes){
+    var output = 'var fileMap = [\n';
+    for (var filename in hashes) {
+        var path = filename.replace(/\\/g,'\/').match(/(.*)\.js$/)[1];
+        var file = path.split('/')[path.split('/').length - 1];
+        output += '["' + path + '", "v_' + hashes[filename] + '"],\n';
+    }
+    var lastIndex = output.lastIndexOf(',');
+    if(lastIndex > -1) {
+      output = output.substring(0, lastIndex);
+    }
+    return output += '\n];\n';
   };
 
   grunt.initConfig({
@@ -100,14 +93,18 @@ module.exports = function(grunt) {
       build: {
           options: {
               banner: 'var fileMap = ',
-              //format: 'json',
+              format: 'json',
               basedir: 'src/',
-              hashTail : true,
               length : 8,
-              complete : formatter
+              formatter : formatter,
+              // complete: function(hashes) {
+              //   return {
+              //       md5: hashes
+              //   };
+              // }
           },
           src: ['src/**/*.js', '!src/**/*-debug.js'],
-          dest: 'dist/filemap.js'
+          dest: 'result/filemap.js'
       }
     },
 
