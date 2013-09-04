@@ -46,7 +46,7 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-ftpscript": "~0.1.6",
-    "grunt-yui-compressor" : " ~0.3.0",
-    "grunt-cachebuster": "~0.1.5"
+    "grunt-cachebuster": "~0.1.5",
+    "grunt-contrib-jshint": "~0.6.4"
   }
 }

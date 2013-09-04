@@ -1,32 +1,42 @@
+"use strict";
+
 module.exports = function(grunt) {
   var transport = require('grunt-cmd-transport');
   var style = transport.style.init(grunt);
   var text = transport.text.init(grunt);
   var script = transport.script.init(grunt);
 
-  var formatter = function(hash){
-      var reg = /\\/g;
-      var result = ''; //
-      var val;
-      for(var key in hash){
-          //val = hash[key];
-          val = hash[key];
-          var file = key.replace(reg,'\/');
-          var arr = file.split('.');
-          arr[arr.length-2] = arr[arr.length-2] + '_' + val;
-          val = arr.join('.');
-          result += '["'+file + '" , "'+ val + '"],'; //\n
-      }
-      var lastIndex = result.lastIndexOf(',');
-      if (lastIndex > -1) {
-          result = result.substring(0, lastIndex);
-      }
-      //result += '\n];';
-      return result;
+  var formatter = function(hashes){
+    var output = 'var fileMap = [\n';
+    for (var filename in hashes) {
+        var path = filename.replace(/\\/g,'\/').match(/(.*)\.js$/)[1];
+        //var file = path.split('/')[path.split('/').length - 1];
+        output += '["' + path + '", "v_' + hashes[filename] + '"],\n';
+    }
+    var lastIndex = output.lastIndexOf(',');
+    if(lastIndex > -1) {
+      output = output.substring(0, lastIndex);
+    }
+    return output += '\n];\n';
   };
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    jshint: {
+      options : {
+        jshintrc: '.jshintrc',
+        es3 : true,
+        //force : true,
+        //reporter : './xreporter.js',
+        reporterOutput : 'result/jsHint',
+        'show-non-errors' : true,
+        '-W100' : true,
+        '-W069' : true
+      },
+      //ignores : [],
+      all: ['Gruntfile.js', 'src/**/*.js', 'compiler/**/*.js', 'result/**/*.js']
+    },
 
     transport: {
       options: {
@@ -91,8 +101,11 @@ module.exports = function(grunt) {
 
    min: {
       'dist': {
-        'src': ['compiler/src/**/*.js'],
-        'dest': 'compiler/dist/aa-min.js'
+        'src': ['compiler/src/ad_async.js'],
+        'dest': 'compiler/dist/ad_async-min.js',
+        'files': {
+          'assets/css/main-min.css': 'assets/css/main.css'
+        }
       }
     },
 
@@ -100,20 +113,24 @@ module.exports = function(grunt) {
       build: {
           options: {
               banner: 'var fileMap = ',
-              //format: 'json',
+              format: 'json',
               basedir: 'src/',
-              hashTail : true,
               length : 8,
-              complete : formatter
+              formatter : formatter,
+              // complete: function(hashes) {
+              //   return {
+              //       md5: hashes
+              //   };
+              // }
           },
           src: ['src/**/*.js', '!src/**/*-debug.js'],
-          dest: 'dist/filemap.js'
+          dest: 'result/filemap.js'
       }
     },
 
     clean: {
       build : {
-        src: ['.build', '.*']
+        src: ['.build']
       }
     }
 
@@ -126,6 +143,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-yui-compressor');
   grunt.loadNpmTasks('grunt-cachebuster');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   grunt.registerTask('compiler', ['uglify:compiler']);
 
@@ -135,7 +153,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['transport', 'concat']);
 
-  grunt.registerTask('build', ['transport:build', 'concat:build', 'uglify:build', 'cachebuster', 'clean']);
+  grunt.registerTask('build', ['jshint', 'transport:build', 'concat:build', 'uglify:build', 'cachebuster', 'clean']);
 
   grunt.registerTask('clear', ['clean']);
 
