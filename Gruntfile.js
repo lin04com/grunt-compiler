@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function(grunt) {
   var transport = require('grunt-cmd-transport');
   var style = transport.style.init(grunt);
@@ -8,7 +10,7 @@ module.exports = function(grunt) {
     var output = 'var fileMap = [\n';
     for (var filename in hashes) {
         var path = filename.replace(/\\/g,'\/').match(/(.*)\.js$/)[1];
-        var file = path.split('/')[path.split('/').length - 1];
+        //var file = path.split('/')[path.split('/').length - 1];
         output += '["' + path + '", "v_' + hashes[filename] + '"],\n';
     }
     var lastIndex = output.lastIndexOf(',');
@@ -20,6 +22,21 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    jshint: {
+      options : {
+        jshintrc: '.jshintrc',
+        es3 : true,
+        //force : true,
+        //reporter : './xreporter.js',
+        reporterOutput : 'result/jsHint',
+        'show-non-errors' : true,
+        '-W100' : true,
+        '-W069' : true
+      },
+      //ignores : [],
+      all: ['Gruntfile.js', 'src/**/*.js', 'compiler/**/*.js', 'result/**/*.js']
+    },
 
     transport: {
       options: {
@@ -84,8 +101,11 @@ module.exports = function(grunt) {
 
    min: {
       'dist': {
-        'src': ['compiler/src/**/*.js'],
-        'dest': 'compiler/dist/aa-min.js'
+        'src': ['compiler/src/ad_async.js'],
+        'dest': 'compiler/dist/ad_async-min.js',
+        'files': {
+          'assets/css/main-min.css': 'assets/css/main.css'
+        }
       }
     },
 
@@ -110,7 +130,7 @@ module.exports = function(grunt) {
 
     clean: {
       build : {
-        src: ['.build', '.*']
+        src: ['.build']
       }
     }
 
@@ -123,6 +143,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-yui-compressor');
   grunt.loadNpmTasks('grunt-cachebuster');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   grunt.registerTask('compiler', ['uglify:compiler']);
 
@@ -132,7 +153,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['transport', 'concat']);
 
-  grunt.registerTask('build', ['transport:build', 'concat:build', 'uglify:build', 'cachebuster', 'clean']);
+  grunt.registerTask('build', ['jshint', 'transport:build', 'concat:build', 'uglify:build', 'cachebuster', 'clean']);
 
   grunt.registerTask('clear', ['clean']);
 
