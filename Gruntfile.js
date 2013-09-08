@@ -103,9 +103,7 @@ module.exports = function(grunt) {
       'dist': {
         'src': ['compiler/src/ad_async.js'],
         'dest': 'compiler/dist/ad_async-min.js',
-        'files': {
-          'assets/css/main-min.css': 'assets/css/main.css'
-        }
+        'files': {}
       }
     },
 
