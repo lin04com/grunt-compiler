@@ -1,52 +1,50 @@
 {
-  "name": "compiler",
-  "version": "1.0.0",
-  "description": "A Js Compiler With Node",
-  "homepage": "/",
-  "keywords": [
-    "compiler",
-    "node"
-  ],
-  "author": "lin04com <ahschl0322@gmail.com>",
-  "engines": {
-    "node": ">= 0.6.0"
+  "author": "ErickSong",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": "~0.3.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-cmd-transport": "~0.4.1",
+    "grunt-cmd-concat": "~0.2.7",
+    "grunt-contrib-clean": "~0.5.0",
+    "connect-livereload": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-connect": "~0.8.0",
+    "grunt-contrib-copy": "~0.5.0"
   },
-  "app": "src/",
-  "build": ".build/",
-  "dist": "dist/",
-  "sea": {
-    "base" : "http://localhost/",
+  "description": "ERROR: No README data found!",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "~0.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "BSD-2-Clause",
+  "spm": {
     "alias": {
+
       "jquery": "jquery",
-      "json": "json",
-      "cookie": "cookie",
-      "user": "user",
-      "puid": "puid",
-      "sctx": "sctx",
-      "suggest": "suggest",
-      "popbox": "popbox",
-      "log": "log",
-      "history": "history",
+      "underscore": "underscore",
+
+      "delayload": "util/delayload",
       "login": "login",
-      "juicer": "juicer",
-      "photoslide": "photoslide",
-      "tabview": "tabview",
-      "jquery-ui": "jquery-ui",
-      "jqueryui-core": "jqueryui-core",
-      "jquery-tabs": "jquery-tabs",
-      "jquery-slider": "jquery-slider",
-      "underscore": "lib/underscore"
+      "cookie": "util/cookie",
+      "juicer": "util/juicer",
+      "user": "util/user",
+      "json": "util/json",
+      "history": "util/history",
+      "suggest": "util/suggest",
+      "client": "client",
+      "photoslide": "util/photoslide",
+      "md5": "util/md5",
+      "log": "util/log",
+      "popbox": "util/popbox",
+      "programlist": "util/programlist"
+
     }
   },
-  "dependencies": {},
-  "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-cmd-transport": "~0.2.0",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-ftpscript": "~0.1.6",
-    "grunt-cachebuster": "~0.1.5",
-    "grunt-contrib-jshint": "~0.6.4"
-  }
+  "out": "script/",
+  "build": ".build/"
 }
